@@ -1,0 +1,3 @@
+[submodule "cairo_webauthn"]
+	path = lib/cairo_webauthn
+	url = https://github.com/cartridge-gg/cairo-webauthn
