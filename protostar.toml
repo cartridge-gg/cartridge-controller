@@ -1,0 +1,14 @@
+["protostar.config"]
+protostar_version = "0.5.0"
+
+["protostar.project"]
+libs_path = "lib"
+
+["protostar.contracts"]
+main = [
+    "src/Controller.cairo",
+    "src/library.cairo"
+]
+
+["protostar.test"]
+cairo-path = ["./lib/starknet_plugin_account/contracts"]
