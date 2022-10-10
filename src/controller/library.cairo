@@ -106,20 +106,20 @@ namespace Controller {
     }(hash: felt, signature_len: felt, signature: felt*) -> (is_valid: felt) {
         alloc_locals;
 
-        if (signature[0] == 0) {
+        if (signature[1] == 0) {
             let (admin_key) = Controller_admin_key.read();
 
             // Implementation expects the r, s components decomposed into their limbs.
-            let sig_r0 = BigInt3(signature[1], signature[2], signature[3]);
-            let sig_s0 = BigInt3(signature[4], signature[5], signature[6]);
-            let challenge_offset_len = signature[7];
-            let challenge_offset_rem = signature[8];
-            let client_data_json_len = signature[9];
-            let client_data_json_rem = signature[10];
-            let client_data_json = signature + 11;
-            let authenticator_data_len = signature[11 + client_data_json_len];
-            let authenticator_data_rem = signature[12 + client_data_json_len];
-            let authenticator_data = signature + 13 + client_data_json_len;
+            let sig_r0 = BigInt3(signature[2], signature[3], signature[4]);
+            let sig_s0 = BigInt3(signature[5], signature[6], signature[7]);
+            let challenge_offset_len = signature[8];
+            let challenge_offset_rem = signature[9];
+            let client_data_json_len = signature[10];
+            let client_data_json_rem = signature[11];
+            let client_data_json = signature + 12;
+            let authenticator_data_len = signature[12 + client_data_json_len];
+            let authenticator_data_rem = signature[13 + client_data_json_len];
+            let authenticator_data = signature + 14 + client_data_json_len;
 
             let is_valid = is_valid_webauth_signature(admin_key, sig_r0, sig_s0,
                 challenge_offset_len, challenge_offset_rem,
@@ -131,9 +131,9 @@ namespace Controller {
             // This interface expects a signature pointer and length to make
             // no assumption about signature validation schemes.
             // But this implementation does, and it expects a (pub, sig_r, sig_s) tuple.
-            let public_key = signature[0];
-            let sig_r = signature[1];
-            let sig_s = signature[2];
+            let public_key = signature[1];
+            let sig_r = signature[2];
+            let sig_s = signature[3];
 
             let (is_pub) = Controller_device_key.read(public_key);
 

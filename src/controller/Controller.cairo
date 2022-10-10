@@ -86,8 +86,6 @@ func is_valid_signature{
     ecdsa_ptr: SignatureBuiltin*,
     bitwise_ptr: BitwiseBuiltin*,
 }(hash: felt, signature_len: felt, signature: felt*) -> (is_valid: felt) {
-    alloc_locals;
-
     let (is_valid) = Controller.is_valid_signature(hash, signature_len, signature);
     return (is_valid=is_valid);
 }
