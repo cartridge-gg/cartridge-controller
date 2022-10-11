@@ -7,13 +7,29 @@ from starkware.cairo.common.cairo_secp.bigint import BigInt3
 from src.controller.library import Controller
 
 @external
+func __setup__{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: HashBuiltin*}() {
+    %{ max_examples(10) %}
+    return ();
+}
+
+@external
+func setup_is_valid_webauthn_signature() {
+    %{
+        given(
+            origin = strategy.short_strings(),
+        )
+    %}
+    return ();
+}
+
+@external
 func test_is_valid_webauthn_signature{
         syscall_ptr: felt*,
         pedersen_ptr: HashBuiltin*,
         range_check_ptr,
         ecdsa_ptr: SignatureBuiltin*,
         bitwise_ptr: BitwiseBuiltin*,
-    }() {
+    }(origin: felt) {
     alloc_locals;
     local x0;
     local x1;
@@ -43,7 +59,7 @@ func test_is_valid_webauthn_signature{
 
     %{
         from tests.signer import WebauthnSigner
-        signer = WebauthnSigner("localhost")
+        signer = WebauthnSigner(ids.origin)
         (x0, x1, x2, y0, y1, y2) = signer.public_key
         (transaction_hash, r0, r1, r2, s0, s1, s2, challenge_offset_len, challenge_offset_rem, challenge_len, challenge_rem,
         client_data_json_len, client_data_json_rem, client_data_json_parts,
