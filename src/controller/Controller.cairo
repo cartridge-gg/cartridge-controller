@@ -6,6 +6,7 @@ from starkware.cairo.common.cairo_builtins import HashBuiltin, SignatureBuiltin,
 from starkware.starknet.common.syscalls import get_tx_info, get_contract_address
 from starkware.cairo.common.alloc import alloc
 from starkware.cairo.common.bool import TRUE, FALSE
+from starkware.cairo.common.cairo_secp.bigint import BigInt3
 from starkware.cairo.common.cairo_secp.ec import EcPoint
 
 from src.controller.library import Controller
@@ -31,12 +32,17 @@ func controller_remove_device_key(device_key: felt) {
 
 @external
 func initialize{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
-    admin_key: EcPoint, device_key: felt
+    plugin_data_len: felt, plugin_data: felt*
 ) {
-    Controller.initializer(admin_key, device_key);
+    with_attr error_message("Controller: invalid initilize data") {
+        assert plugin_data_len = 7;
+    }
+
+    let admin_key = EcPoint(BigInt3(plugin_data[0], plugin_data[1], plugin_data[2]), BigInt3(plugin_data[3], plugin_data[4], plugin_data[5]));
+    Controller.initializer(admin_key, plugin_data[6]);
 
     let (self) = get_contract_address();
-    controller_init.emit(self, admin_key, device_key);
+    controller_init.emit(self, admin_key, plugin_data[6]);
     return ();
 }
 
