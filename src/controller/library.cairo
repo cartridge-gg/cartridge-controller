@@ -33,13 +33,14 @@ namespace Controller {
     func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
         admin_key: EcPoint, device_key: felt
     ) {
-        let (admin_key) = Controller_admin_key.read();
+        let (existing_admin_key) = Controller_admin_key.read();
         with_attr error_message("Controller: account already initialized") {
-            assert admin_key.x.d0 = 0;
+            assert existing_admin_key.x.d0 = 0;
         }
 
         Controller_admin_key.write(admin_key);
         Controller_device_key.write(device_key, 1);
+
         return ();
     }
 
@@ -121,7 +122,7 @@ namespace Controller {
             let authenticator_data_rem = signature[13 + client_data_json_len];
             let authenticator_data = signature + 14 + client_data_json_len;
 
-            let is_valid = is_valid_webauth_signature(admin_key, sig_r0, sig_s0,
+            let is_valid = is_valid_webauth_signature(admin_key, hash, sig_r0, sig_s0,
                 challenge_offset_len, challenge_offset_rem,
                 client_data_json_len, client_data_json_rem, client_data_json,
                 authenticator_data_len, authenticator_data_rem, authenticator_data);

@@ -107,3 +107,131 @@ func test_is_valid_webauthn_signature{
 
     return ();
 }
+
+@contract_interface
+namespace IController {
+    func initialize(
+        plugin_calldata_len: felt, plugin_calldata: felt*
+    ){
+    }
+}
+
+@external
+func test_initialize{
+        syscall_ptr: felt*,
+        pedersen_ptr: HashBuiltin*,
+        range_check_ptr,
+        ecdsa_ptr: SignatureBuiltin*,
+        bitwise_ptr: BitwiseBuiltin*,
+    }() {
+    alloc_locals;
+
+    local controller_address: felt;
+    %{ ids.controller_address = deploy_contract("./src/controller/Controller.cairo", []).contract_address %}
+
+    let (local plugin_calldata: felt*) = alloc();
+    assert plugin_calldata[0] = 0x1;
+    assert plugin_calldata[1] = 0x1;
+    assert plugin_calldata[2] = 0x1;
+    assert plugin_calldata[3] = 0x1;
+    assert plugin_calldata[4] = 0x1;
+    assert plugin_calldata[5] = 0x1;
+    assert plugin_calldata[6] = 0x1;
+
+    IController.initialize(controller_address, 7, plugin_calldata);
+
+    %{ expect_revert(error_message="Controller: account already initialized") %}
+    IController.initialize(controller_address, 7, plugin_calldata);
+
+    return ();
+}
+
+@external
+func test_verify{
+        syscall_ptr: felt*,
+        pedersen_ptr: HashBuiltin*,
+        range_check_ptr,
+        ecdsa_ptr: SignatureBuiltin*,
+        bitwise_ptr: BitwiseBuiltin*,
+    }() {
+    alloc_locals;
+
+    let sig_r0 = BigInt3(65546257809207752398516129, 74656500423935402038188120, 10917538219687308733253964);
+    let sig_s0 = BigInt3(66876101101625119369777982, 30503904999956572755782373, 11705175908723778676784935);
+    let challenge_offset_len = 9;
+    let challenge_offset_rem = 0;
+    let client_data_json_len = 34;
+    let client_data_json_rem = 2;
+
+    let (local client_data_json: felt*) = alloc();
+    assert client_data_json[0] = 2065855609;
+    assert client_data_json[1] = 1885676090;
+    assert client_data_json[2] = 578250082;
+    assert client_data_json[3] = 1635087464;
+    assert client_data_json[4] = 1848534885;
+    assert client_data_json[5] = 1948396578;
+    assert client_data_json[6] = 1667785068;
+    assert client_data_json[7] = 1818586727;
+    assert client_data_json[8] = 1696741922;
+    assert client_data_json[9] = 1114917719;
+    assert client_data_json[10] = 1852725849;
+    assert client_data_json[11] = 877606445;
+    assert client_data_json[12] = 1919764824;
+    assert client_data_json[13] = 876046201;
+    assert client_data_json[14] = 1632842606;
+    assert client_data_json[15] = 1732407145;
+    assert client_data_json[16] = 876178797;
+    assert client_data_json[17] = 1851338830;
+    assert client_data_json[18] = 1178889528;
+    assert client_data_json[19] = 946823970;
+    assert client_data_json[20] = 740454258;
+    assert client_data_json[21] = 1768384878;
+    assert client_data_json[22] = 574235240;
+    assert client_data_json[23] = 1953788019;
+    assert client_data_json[24] = 976170872;
+    assert client_data_json[25] = 778264946;
+    assert client_data_json[26] = 1953655140;
+    assert client_data_json[27] = 1734684263;
+    assert client_data_json[28] = 1730292770;
+    assert client_data_json[29] = 1668444019;
+    assert client_data_json[30] = 1934586473;
+    assert client_data_json[31] = 1734962722;
+    assert client_data_json[32] = 980710005;
+    assert client_data_json[33] = 1702690816;
+
+    let authenticator_data_len = 10;
+    let authenticator_data_rem = 3;
+
+    let (local authenticator_data: felt*) = alloc();
+    assert authenticator_data[0] = 547978947;
+    assert authenticator_data[1] = 4176460842;
+    assert authenticator_data[2] = 3389847498;
+    assert authenticator_data[3] = 3141667658;
+    assert authenticator_data[4] = 164671177;
+    assert authenticator_data[5] = 2421450441;
+    assert authenticator_data[6] = 2918684036;
+    assert authenticator_data[7] = 4202036947;
+    assert authenticator_data[8] = 83886080;
+    assert authenticator_data[9] = 0;
+
+    let transaction_hash = 0x06d2969e7658e0eebeae6217e3b832692de7801a22e3d9a69d8d0d1439bcf287;
+
+    Controller.is_valid_webauth_signature(
+        EcPoint(
+            BigInt3(41954307354962613599163780, 19663556749369154724636657, 3805171173402616775588440),
+            BigInt3(21280206910955492062951095, 36564985731785099000333311, 16704533755628810607549113),
+        ),
+        transaction_hash,
+        sig_r0,
+        sig_s0,
+        challenge_offset_len,
+        challenge_offset_rem,
+        client_data_json_len,
+        client_data_json_rem,
+        client_data_json,
+        authenticator_data_len,
+        authenticator_data_rem,
+        authenticator_data);
+
+    return ();
+}
