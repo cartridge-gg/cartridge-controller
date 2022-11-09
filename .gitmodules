@@ -10,3 +10,6 @@
 [submodule "cairo_sha256"]
 	path = lib/cairo_sha256
 	url = https://github.com/cartridge-gg/cairo-sha256
+[submodule "starknet_plugin_account"]
+	path = lib/starknet_plugin_account
+	url = https://github.com/argentlabs/starknet-plugin-account
