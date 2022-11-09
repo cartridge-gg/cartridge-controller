@@ -1,6 +1,7 @@
 %lang starknet
 
 from starkware.cairo.common.cairo_builtins import HashBuiltin, SignatureBuiltin
+
 from src.account.library import CallArray, PluginAccount
 from src.upgrade.Upgradable import _set_implementation
 

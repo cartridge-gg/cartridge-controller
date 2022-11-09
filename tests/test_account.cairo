@@ -4,8 +4,8 @@ from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.cairo.common.uint256 import Uint256
 from starkware.starknet.common.syscalls import get_block_timestamp, get_caller_address
 
-from contracts.account.IPluginAccount import IPluginAccount
-from contracts.upgrade.IProxy import IProxy
+from src.account.IPluginAccount import IPluginAccount
+from src.upgrade.IProxy import IProxy
 
 @external
 func test_upgrade{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: HashBuiltin*}() {

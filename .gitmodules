@@ -13,3 +13,4 @@
 [submodule "starknet_plugin_account"]
 	path = lib/starknet_plugin_account
 	url = https://github.com/argentlabs/starknet-plugin-account
+	branch = refactorlibrary

@@ -3,7 +3,7 @@
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.starknet.common.syscalls import library_call, library_call_l1_handler
 
-from contracts.upgrade.Upgradable import _get_implementation, _set_implementation
+from src.upgrade.Upgradable import _get_implementation, _set_implementation
 
 /////////////////////
 // CONSTRUCTOR
