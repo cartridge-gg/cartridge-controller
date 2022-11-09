@@ -1,13 +1,9 @@
-["protostar.config"]
-protostar_version = "0.7.0"
+[project]
+protostar-version = "0.7.0"
+lib-path = "lib"
 
-["protostar.project"]
-libs_path = "lib"
+[contracts]
+main = ["src/controller/Controller.cairo"]
 
-["protostar.contracts"]
-main = [
-    "src/controller/Controller.cairo"
-]
-
-["protostar.test"]
+[test]
 cairo-path = ["./lib/starknet_plugin_account/contracts"]
