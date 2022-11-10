@@ -39,22 +39,6 @@ func __validate__{
 }
 
 @external
-func __validate_deploy__{
-    syscall_ptr: felt*,
-    pedersen_ptr: HashBuiltin*,
-    ecdsa_ptr: SignatureBuiltin*,
-    range_check_ptr
-} (
-    class_hash: felt,
-    salt: felt,
-    calldata_len: felt,
-    calldata: felt*
-) {
-    PluginAccount.validate_deploy(class_hash, calldata_len, calldata, salt);
-    return ();
-}
-
-@external
 @raw_output
 func __execute__{
     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ecdsa_ptr: SignatureBuiltin*, range_check_ptr
