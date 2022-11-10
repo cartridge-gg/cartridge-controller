@@ -75,7 +75,7 @@ func __validate_deploy__{
     calldata_len: felt,
     calldata: felt*
 ) {
-    PluginAccount.validate_deploy(class_hash, calldata_len, calldata, contract_address_salt);
+    PluginAccount.validate_deploy();
     return ();
 }
 
