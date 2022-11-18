@@ -1,9 +1,6 @@
 [project]
 protostar-version = "0.7.0"
 lib-path = "lib"
-cairo-path = ["./lib/starknet_plugin_account/contracts"]
 
 [contracts]
-account = ["src/account/PluginAccount.cairo"]
 controller = ["src/controller/Controller.cairo"]
-proxy = ["src/upgrade/Proxy.cairo"]
