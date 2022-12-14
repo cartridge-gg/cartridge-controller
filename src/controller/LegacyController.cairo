@@ -104,12 +104,14 @@ func validate{
     ecdsa_ptr: SignatureBuiltin*,
     bitwise_ptr: BitwiseBuiltin*,
 }(
+    plugin_data_len: felt,
+    plugin_data: felt*,
     call_array_len: felt,
     call_array: CallArray*,
     calldata_len: felt,
     calldata: felt*,
 ) {
     let (tx_info) = get_tx_info();
-    is_valid_signature(tx_info.transaction_hash, tx_info.signature_len - 1, tx_info.signature + 1);
+    is_valid_signature(tx_info.transaction_hash, plugin_data_len, plugin_data);
     return ();
 }
