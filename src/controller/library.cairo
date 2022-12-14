@@ -11,7 +11,7 @@ from starkware.cairo.common.bitwise import bitwise_and
 from starkware.cairo.common.cairo_secp.ec import EcPoint
 from starkware.cairo.common.cairo_secp.bigint import BigInt3
 
-from src.webauthn import Webauthn
+from cairo_webauthn.src.webauthn import Webauthn
 
 //
 // Storage
