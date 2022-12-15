@@ -1,6 +1,8 @@
 [project]
-protostar-version = "0.7.0"
+protostar-version = "0.9.0"
 lib-path = "lib"
+cairo-path = ["lib", "lib/cairo_base64", "lib/cairo_secp256r1", "lib/cairo_sha256"]
 
 [contracts]
 controller = ["src/controller/Controller.cairo"]
+legacy-controller = ["src/controller/LegacyController.cairo"]

@@ -92,7 +92,7 @@ func is_valid_signature{
     ecdsa_ptr: SignatureBuiltin*,
     bitwise_ptr: BitwiseBuiltin*,
 }(hash: felt, signature_len: felt, signature: felt*) -> (is_valid: felt) {
-    let (is_valid) = Controller.is_valid_signature(hash, signature_len - 1, signature + 1);
+    let (is_valid) = Controller.is_valid_signature(hash, signature_len, signature);
     return (is_valid=is_valid);
 }
 
@@ -104,12 +104,14 @@ func validate{
     ecdsa_ptr: SignatureBuiltin*,
     bitwise_ptr: BitwiseBuiltin*,
 }(
+    plugin_data_len: felt,
+    plugin_data: felt*,
     call_array_len: felt,
     call_array: CallArray*,
     calldata_len: felt,
     calldata: felt*,
 ) {
     let (tx_info) = get_tx_info();
-    is_valid_signature(tx_info.transaction_hash, tx_info.signature_len, tx_info.signature);
+    is_valid_signature(tx_info.transaction_hash, plugin_data_len, plugin_data);
     return ();
 }
